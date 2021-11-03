@@ -14,6 +14,13 @@
 
     /* controller */
     --showControllerDelay: 8s;
+
+    /* overlay */
+    --overlayPerspective: 35em;
+    --overlayScenRotation: rotateY(0deg);
+    --overlayPerspVertical: 50%;
+    --overlaySize: 35px;
+
 }
 
 body {
@@ -192,29 +199,18 @@ input:is([type="checkbox"], [type="radio"]){
 /**/
 #doorClick:checked~.per {
     animation: zoomToDoor 2s ease-in-out forwards,
-    enterDoor 4s ease-in-out 3s forwards;
+    enterDoor 1s ease-in-out 1s forwards;
 }
 
-#doorClick:checked~.per .scen .frontDoor {
-    animation: doorOpen 3s 2.5s;
+#doorClick:checked~.overlay {
+    animation: overlayEnterDoor 2s ease-in-out 1.3s forwards,
+    fadeIn 0.5s ease-in-out forwards,
+    fadeOut 0.5s ease-in-out 3s forwards;
 }
 
-.doorBtnT {
-    display: none;
-    position: absolute;
-    top: 58%;
-    width: 4.8em;
-    height: 5.6em;
-    z-index: 2;
-}
-
-.doorBtnM {
-    display: none;
-    position: absolute;
-    top: 49.8%;
-    width: 4.8em;
-    height: 6.4em;
-    z-index: 2;
+#doorClick:checked~.overlay .overlayDoor{
+    animation: doorOpen 3s ease-in-out 0.5s forwards, 
+    fadeOut 2s ease-in-out 1.6s forwards;
 }
 
 .doorBtnB {
@@ -226,7 +222,7 @@ input:is([type="checkbox"], [type="radio"]){
     z-index: 2;
 }
 
-:is(.doorBtnT, .doorBtnM, .doorBtnB):hover {
+.doorBtnB:hover {
     cursor: pointer;
 }
 
@@ -752,7 +748,43 @@ input:is([type="checkbox"], [type="radio"]){
     animation: scareShadow 10s linear 15s infinite;
 }
 
+/*overlay animation */
+.overlay {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: hsl(0 0% 0%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:hsl(0 0% 0%);
+    font-size: var(--overlaySize);
+    perspective: var(--overlayPerspective);
+    perspective-origin: 50% var(--overlayPerspVertical);
+    opacity: 0;
+}
+
+.overlayScen {
+   position: var(--pos);
+   transform-style: preserve-3d;
+   transform: var(--overlayScenRotation);
+}
+
+.overlayDoor {
+    transform: translateX(50%) translateY(50%) translateZ(25.5em) rotateX(180deg) rotateY(180deg);
+    top: -2em;
+    right: 0;
+    width: 1.8em;
+    height: 2.57em;
+}
+
 /* animation */
+@keyframes overlayEnterDoor {
+    to {
+        perspective: 29em;
+    }
+}
+
 @keyframes scareShadow {
     0%, 100% {
         background-color: transparent;
@@ -802,93 +834,21 @@ input:is([type="checkbox"], [type="radio"]){
 }
 
 @keyframes doorOpen {
-    0%{
-        transform: translateX(50%) translateY(50%) translateZ(7.51em) rotateX(180deg) rotateY(180deg);
-        top: -2.88em;
-        right: 0;
-        width: 1.8em;
-        height: 2.57em;
-    }
-
-    10%{
-        transform: translateX(50%) translateY(50%) translateZ(7.59em) rotateX(180deg) rotateY(175deg);
-        top: -2.88em;
-        right: -0.04em;
-        width: 1.72em;
-        height: 2.57em;
-    }
-
-    20% {
-        transform: translateX(50%) translateY(50%) translateZ(7.71em) rotateX(180deg) rotateY(165deg);
-        top: -2.88em;
-        right: -0.1em;
-        width: 1.6em;
-        height: 2.57em;
-    }
-
-    30% {
-        transform: translateX(50%) translateY(50%) translateZ(7.8em) rotateX(180deg) rotateY(155deg);
-        top: -2.88em;
-        right: -0.24em;
-        width: 1.51em;
-        height: 2.57em;
-    }
-
-    40% {
-        transform: translateX(50%) translateY(50%) translateZ(7.9em) rotateX(180deg) rotateY(145deg);
-        top: -2.88em;
-        right: -0.33em;
-        width: 1.41em;
-        height: 2.57em;
-    }
-
-    50% {
-        transform: translateX(50%) translateY(50%) translateZ(7.95em) rotateX(180deg) rotateY(135deg);
-        top: -2.88em;
-        right: -0.45em;
-        width: 1.33em;
-        height: 2.57em;
-    }
-
-    60% {
-        transform: translateX(50%) translateY(50%) translateZ(8.09em) rotateX(180deg) rotateY(125deg);
-        top: -2.88em;
-        right: -0.45em;
-        width: 1.33em;
-        height: 2.57em;
-    }
-
-    70% {
-        transform: translateX(50%) translateY(50%) translateZ(8.09em) rotateX(180deg) rotateY(115deg);
-        top: -2.88em;
-        right: -0.45em;
-        width: 1.33em;
-        height: 2.57em;
-    }
-
-    80% {
-        transform: translateX(50%) translateY(50%) translateZ(8.05em) rotateX(180deg) rotateY(105deg);
-        top: -2.88em;
-        right: -0.65em;
-        width: 1.33em;
-        height: 2.57em;
-    }
-
-    90% {
-        transform: translateX(50%) translateY(50%) translateZ(8.05em) rotateX(180deg) rotateY(95deg);
-        top: -2.88em;
-        right: -0.85em;
-        width: 1.33em;
-        height: 2.57em;
-    }
-
-    100% {
-        transform: translateX(50%) translateY(50%) translateZ(8.05em) rotateX(180deg) rotateY(90deg);
-        top: -2.88em;
-        right: -0.85em;
-        width: 1.33em;
-        height: 2.57em;
+    to {
+        transform: translateX(50%) translateY(50%) translateZ(25.5em) rotateX(180deg) rotateY(125deg);
     } 
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to { 
+        opacity: 0;
+    }
 }
 
 @keyframes enterDoor {
