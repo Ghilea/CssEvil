@@ -17,11 +17,11 @@ let audioFiles = () => {
         if(door.checked){
             setTimeout(() => {
                 openDoor.play();
-            }, 2500);
+            }, 1350);
 
             setTimeout(() => {
                 closeDoor.play();
-            }, 6000);
+            }, 1600);
         }
     })
 }
@@ -35,7 +35,7 @@ let bgMusic = paused => {
     audio.play();
 }
 
-//audioFiles();
+audioFiles();
 
 playMusic.addEventListener('click', () => {
     //bgMusic(false);
