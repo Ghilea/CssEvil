@@ -10,7 +10,7 @@
     --gsRotateSpeed: 0s; /* 13*/
     --gsZoomSpeed: 0s; /* 15 */
 
-    --doorDisplayDelay: 0s; /* 15 */
+    --doorDisplayDelay: 20s; /* 15 */
 
     /* controller */
     --showControllerDelay: 8s;
