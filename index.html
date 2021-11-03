@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HouseModel - Pure CSS</title>
+    <link href="index.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/jpg" href="#"/>
+</head>
+<body>
+
+    <input id="musicBtn" type="checkbox">
+    <label class="position menu__play" for="musicBtn">Start Game</label>
+
+    <div class="position menu"></div>
+
+    <!-- door click -->
+    <input id="doorClick" type="radio" name="doorBtn">
+    <label class="doorBtnB" for="doorClick"></label>
+
+    <!-- move player -->
+    <input id="turnLeft" type="radio" name="turnBtn">
+    <label class="button turLeftBtn" for="turnLeft"></label>
+
+    <input id="turnRight" type="radio" name="turnBtn">
+    <label class="button turnRightBtn" for="turnRight"></label>
+
+    <input id="forwardBtn" type="radio" name="turnBtn">
+    <label class="button forwardBtn" for="forwardBtn"></label>
+
+    <input id="backBtn" type="radio" name="turnBtn">
+    <label class="button backBtn" for="backBtn" checked="checked"></label>
+
+    <div class="per">
+
+        <div class="scen">
+
+            <!-- floors -->
+            <div class="floor firstFloor"></div>
+            <div class="floor secondFloor"></div>
+            <div class="floor roof"></div>
+
+            <!-- roof -->
+            <div class="roofLeft"></div>
+            <div class="roofRight"></div>
+
+            <!-- left side -->
+            <div class="position basement outside_BL"></div>
+            <div class="position wallOutside outside_L"></div>
+            <div class="wallInside inside_L"></div>
+
+            <div class="position grassLeft"></div>
+
+            <!-- right side -->
+            <div class="position basement outside_BR"></div>
+            <div class="position wallOutside outside_R"></div>
+            <div class="wallInside inside_R"></div>
+
+            <div class="position grassRight"></div>
+
+            <!-- back -->
+            <div class="position basement outside_BB"></div>
+            <div class="position wallOutside outside_B"></div>
+            <div class="wallInside inside_B"></div>
+            
+            <div class="position grassBack"></div>
+
+            <div class="wallOutside outside_B2">
+                <div class="borderSecoundFloorLeft"></div>
+                <div class="borderSecoundFloorRight"></div>
+            </div>
+        
+            <!-- balc front -->
+            <div class="position wallOutsideBalc sFloorWall_TopF"></div>
+            <div class="position wallOutsideBalc sFloorWall_TopL"></div>
+            <div class="position wallOutsideBalc sFloorWall_TopR"></div>
+            
+            <div class="position wallOutsideBalc sFloorWall_BootomF"></div>
+            <div class="position wallOutsideBalc sFloorWall_BottomL"></div>
+            <div class="position wallOutsideBalc sFloorWall_BottomR"></div>
+            
+            <div class="position sFloorBalc"></div>
+            <div class="floor roofBalc"></div>
+            <div class="door balcDoor"></div>
+            
+            <!-- front -->
+            <div class="position basement outside_BF"></div>
+            <div class="position wallOutside outside_F"></div>
+            
+            <div class="wallInside inside_F"></div>
+
+            <div class="wallOutside outside_F2">
+                <div class="borderSecoundFloorLeft"></div>
+                <div class="borderSecoundFloorRight"></div>
+            </div>
+            
+            <!-- windows & doors front -->
+            <div class="window wFront1"></div>
+            <div class="window wFront2"></div>
+            <div class="window wFront3"></div>
+            <div class="window wFront4"></div>
+            <div class="window wFront5"></div>
+            <div class="scareShadow"></div>
+
+            <div class="oldDoor frontDoor">
+                <!--<div class="handle"></div>-->
+            </div>
+
+            <div class="position frontDoorBorderLeft"></div>
+            <div class="position frontDoorBorderRight"></div>
+            <div class="position frontDoorBorderTop"></div>
+
+            <div class="position grassFront"></div>
+
+            <!-- windows left side -->
+            <div class="window wLeft1"></div>
+            <div class="window wLeft2"></div>
+            <div class="window wLeft3"></div>
+            <div class="window wLeft4"></div>
+
+            <!-- windows back -->
+            <div class="window wBack1"></div>
+            <div class="window wBack2"></div>
+            <div class="window wBack3"></div>
+
+            <!-- stairs front -->
+            <div class="position stairFront"></div>
+            <div class="position stairFloor"></div>
+            <div class="position stairLeft"></div>
+            <div class="position stairRight"></div>
+
+            <div class="position stairFront_step"></div>
+            <div class="position stairFloor_step"></div>
+            <div class="position stairLeft_step"></div>
+            <div class="position stairRight_step"></div>
+
+            <!-- tree -->
+            <div class="tree"></div>
+            <div class="tree2"></div>
+        </div>
+
+    </div>
+
+    <script src="index.js" async defer></script>
+</body>
+</html>

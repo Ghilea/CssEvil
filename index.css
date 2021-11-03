@@ -1,0 +1,928 @@
+:root {
+    --scenAnimationSpeed: 30s;
+    --scenRotation: rotateY(0deg);
+    --perspective: 35em;
+    --perspVertical: 50%;
+    --pos: absolute;
+    --changeSize: 35px;
+
+    /*start the game */
+    --gsRotateSpeed: 0s; /* 13*/
+    --gsZoomSpeed: 0s; /* 15 */
+
+    --doorDisplayDelay: 0s; /* 15 */
+
+    /* controller */
+    --showControllerDelay: 8s;
+}
+
+body {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: linear-gradient(360deg, black 60%, #625d5d);
+    overflow: hidden;
+    margin:0;
+}
+
+.menu {
+    width: 100vw;
+    height: 100vh;
+    background-color: hsl(0 0% 0%);
+    z-index: 3;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .menu__play {
+        font-size: 3rem;
+        color: white;
+        z-index: 4;
+        cursor: pointer;
+    }
+
+.per {
+    font-size: var(--changeSize);
+    perspective: var(--perspective);
+    perspective-origin: 50% var(--perspVertical);
+}
+
+/* controller */
+input:is([type="checkbox"], [type="radio"]){
+    display: none;
+}
+
+.controller {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em 0;
+    right: 0;
+    width: 2em;
+    height: 100%;
+    z-index: 2;
+}
+
+.buttonRotate {
+    transform: rotateX(180deg);
+}
+
+.button {
+    position: fixed;
+    bottom: 4.5em;
+    left: 50%;
+    display: grid;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 2em rgb(255, 255, 255);
+    width: 3em;
+    height: 3em;
+    max-height: 0;
+    border-radius: 0.5em;
+    cursor: pointer;
+    z-index: 2;
+    transform: translate(-50%);
+}
+
+.button:hover {
+    box-shadow: 0 0 0.1em rgb(255, 255, 255);
+    transition: all 1s;
+}
+
+#doorClick:checked~.button {
+    animation: display 1s ease-in-out var(--showControllerDelay) forwards;
+}
+
+/* musicBtn */
+#musicBtn:checked ~ .menu{
+    display:none;
+}
+
+#musicBtn:checked~.menu__play {
+    display: none;
+}
+
+#musicBtn:checked~.per {
+    animation: fadeInHouse var(--gsZoomSpeed) ease-in-out;
+
+}
+
+#musicBtn:checked~.per .scen{
+    animation: rotateSceen var(--gsRotateSpeed) ease-in-out;
+}
+
+/*#musicBtn:checked~.per .tree {
+    animation: counterRotate 13s linear reverse infinite;
+}*/
+
+#musicBtn:checked~.doorBtnB {
+    animation: display 1s ease-in-out var(--doorDisplayDelay) forwards;
+}
+
+/* player movement */
+.turLeftBtn {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    transform: translate(calc(-50% - 2em));
+}
+
+.turLeftBtn::before {
+    content: '<';
+    margin: auto;
+}
+
+.turnRightBtn {
+    transform: translate(calc(-50% + 2em));
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.turnRightBtn::before {
+    content: '>';
+    margin: auto;
+}
+
+.forwardBtn {
+    bottom: 5.5em;
+    left: 50%;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.backBtn {
+    bottom: 3.5em;
+    left: 50%;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.forwardBtn::before {
+   content: '^';
+   margin: auto;
+}
+
+.backBtn::before {
+    content: '^';
+    margin: auto;
+    transform: rotate(180deg);
+}
+
+/* button clicked */
+#turnLeft:checked~.per .scen {
+    --scenRotation: rotateY(-90deg);
+}
+
+#turnRight:checked~.per .scen {
+    --scenRotation: rotateY(90deg);
+}
+
+#forwardBtn:checked~.per .scen {
+    transform: translateZ(5.5em);
+    --scenRotation: rotateY(0deg);
+}
+
+#backBtn:checked~.per .scen {
+    --scenRotation: rotateY(180deg);
+}
+
+/**/
+#doorClick:checked~.per {
+    animation: zoomToDoor 2s ease-in-out forwards,
+    enterDoor 4s ease-in-out 3s forwards;
+}
+
+#doorClick:checked~.per .scen .frontDoor {
+    animation: doorOpen 3s 2.5s;
+}
+
+.doorBtnT {
+    display: none;
+    position: absolute;
+    top: 58%;
+    width: 4.8em;
+    height: 5.6em;
+    z-index: 2;
+}
+
+.doorBtnM {
+    display: none;
+    position: absolute;
+    top: 49.8%;
+    width: 4.8em;
+    height: 6.4em;
+    z-index: 2;
+}
+
+.doorBtnB {
+    position: absolute;
+    top: 43.5%;
+    width: 4.8em;
+    height: 6.3em;
+    max-height: 0;
+    z-index: 2;
+}
+
+:is(.doorBtnT, .doorBtnM, .doorBtnB):hover {
+    cursor: pointer;
+}
+
+/* button effect */
+
+/* mics */
+.scen {
+    position: var(--pos);
+    transform-style: preserve-3d;
+    transform: var(--scenRotation)
+}
+
+.floor {
+    position: var(--pos);
+    transform: translate(-50%, -50%) rotateX(90deg);
+    width: 14.83em;
+    height: 14.83em;
+    background-color: rgb(36, 36, 36);
+    box-shadow: inset 0 0 100px rgb(0, 0, 0);
+}
+
+.firstFloor {
+    top: 1em;    
+}
+
+.secondFloor {
+    top: -2.4em;
+}
+
+.roof {
+    top: -6em;
+}
+
+.position {
+    position: var(--pos);
+}
+
+/* roof */
+:is(.roofLeft, .roofRight, .roofTop) {
+    position: var(--pos);
+    top: -8.85em;
+    left: -4em;
+    transform: translate(-50%, -50%) rotateX(90deg) rotateY(141deg) rotateZ(90deg);
+    width: 15em;
+    height: 10.3em;
+    background-image: repeating-linear-gradient(to right, #464646, #131313);
+    background-size: 0.2em;
+    box-shadow: inset 0 0 100px rgb(0, 0, 0),
+        0 0 100px rgba(255, 255, 255, 0.1);
+}
+
+.roofRight {
+    left: 4em;
+    transform: translate(-50%, -50%) rotateX(90deg) rotateY(-141deg) rotateZ(90deg);
+}
+
+/* wall */
+.basement {
+    background-color: #4a4a4a;
+    border-bottom: 0.05em solid rgb(0, 0, 0);
+}
+
+.wallOutside {
+    background-color: #942626;
+    background-image: repeating-linear-gradient(to right, #942626, #b22222);
+    background-size: 0.3em;
+    border-left: 0.1em solid white;
+    border-right: 0.1em solid white;
+    box-shadow: inset 0 0 5.5em rgb(0, 0, 0);
+}
+
+.wallOutsideBalc {
+    background-color: #942626;
+    background-image: repeating-linear-gradient(to right, #942626, #b22222);
+    background-size: 0.3em;
+    border-left: 0.1em solid white;
+    border-right: 0.1em solid white;
+    box-shadow: inset 0 0 1em rgb(0, 0, 0);
+}
+
+.wallInside {
+    position: var(--pos);
+    background-image: linear-gradient(to left, rgb(29, 12, 12), #000000);
+    background-size: 0.2em;
+}
+
+:is(.outside_L, .inside_L, .outside_BL, .outside_R, .inside_R, .outside_BR) {
+    transform: translate(-50%, -50%) rotateY(90deg);
+    top: -2.5em;
+    left: -7.5em;
+    width: 14.8em;
+    height: 7em;
+}
+
+:is(.outside_L, .inside_L){
+    clip-path: polygon(100% 0%, 100% 100%, 83.5% 100%, 83.5% 62%, 63.5% 62%, 63.5% 86%, 84% 86%, 84% 100%, 68% 100%, 36% 100%, 36% 62%, 16% 62%, 16% 86%, 36% 86%, 36% 100%, 0 100%, 0% 0%, 16% 0%, 16% 39%, 36% 39%, 36% 15%, 15% 14%, 16% 0%, 46% 0, 63.5% 0%, 63.5% 39%, 83.5% 39%, 83.5% 15%, 0% 15%, 62% 0%);
+}
+
+:is(.outside_B, .inside_B, .outside_F, .inside_F) {
+    transform: translateX(50%) translateY(50%) translateZ(-7.5em) rotateY(180deg);
+    top: -9.5em;
+    right: 0;
+    width: 14.8em;
+    height: 7em;
+}
+
+:is(.outside_BB, .outside_BF) {
+    transform: translateX(50%) translateY(50%) translateZ(-7.4em) rotateX(180deg) rotateY(180deg);
+    top: 0.45em;
+    right: 0;
+    width: 14.8em;
+    height: 1em;
+}
+
+:is(.borderSecoundFloorLeft, .borderSecoundFloorRight) {
+    position: var(--pos);
+    top: -1.8em;
+    left: 10.95em;
+    width: 0.1em;
+    height: 10em;
+    background-color: white;
+    transform: rotate(50.4deg);
+}
+
+:is(.outside_B2, .outside_F2) {
+    position: absolute;
+    transform: translateX(50%) translateY(50%) translateZ(-7.5em) rotateX(180deg) rotateY(180deg);
+    top: -15.28em;
+    right: 0;
+    width: 14.8em;
+    height: 6.2em;
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+}
+
+.outside_F2 {
+    clip-path: polygon(50% 100%, 0 0, 100% 0%, 46% 32%, 46% 47%, 54% 47%, 54% 32%, 31% 32%, 0% 0%, 100% 0);
+}
+
+/* left */
+.inside_L {
+    left: -7.4em;
+    width: 15em;
+}
+
+.outside_BL {
+    top: 1.5em;
+    left: -7.4em;
+    height: 1em;
+}
+
+/* right */
+.outside_R {
+    left: 7.5em;
+}
+
+.inside_R {
+    left: 7.4em;
+    width: 15em;
+}
+
+.outside_BR {
+    top: 1.5em;
+    left: 7.4em;
+    height: 1em;
+}
+
+/* back */
+:is(.outside_B, .inside_B){
+    clip-path: polygon(0% 0%, 0% 100%, 14% 100%, 14% 63%, 33% 62%, 33% 86%, 14% 85%, 12% 100%,
+        67% 100%, 67% 64%,
+        76% 63%, 87% 64%, 87% 86%, 72% 86%, 0% 100%, 100% 100%, 100% 0, 33% 0%, 33% 35%, 14% 35%, 14% 13%, 41% 13%, 48% 0);
+}
+
+.inside_B {
+    transform: translateX(50%) translateY(50%) translateZ(-7.4em) rotateY(180deg);
+    width: 15em;
+}
+
+/* font */
+:is(.outside_F, .inside_F){
+    clip-path: polygon(100% 0%, 100% 100%, 91% 100%, 91% 63%, 72% 63%, 72% 86%, 92% 86%, 92% 100%, 56% 100%, 56% 63%, 44% 63%, 44% 100%, 0% 100%, 28% 86%, 28% 64%, 9% 64%, 9% 87%, 30% 86%, 0 100%, 0% 0%, 14% 0%, 14% 32%, 20% 32%, 20% 17%, 14% 17%, 14% 0%, 39% 0%, 39% 43%, 48% 42%, 48% 20%, 38% 20%, 38% 0%, 52% 0%, 52% 51%, 61% 50%, 61% 14%, 47% 14%, 0% 0%);
+}
+.outside_F {
+    transform: translateX(50%) translateY(50%) translateZ(7.5em) rotateY(180deg);
+}
+
+.inside_F {
+    transform: translateX(50%) translateY(50%) translateZ(7.4em) rotateY(180deg);
+    width: 15em;
+}
+
+.outside_BF {
+    transform: translateX(50%) translateY(50%) translateZ(7.4em) rotateX(180deg) rotateY(180deg);
+}
+
+/* secound floor */
+.outside_F2 {
+    transform: translateX(50%) translateY(50%) translateZ(7.5em) rotateX(180deg) rotateY(180deg);
+}
+
+.borderSecoundFloorRight {
+    left: auto;
+    right: 10.95em;
+    transform: rotate(-50.4deg);
+}
+
+/* grass */
+:is(.grassLeft, .grassRight, .grassFront, .grassBack) {
+    top: 2em;
+    left: -8.9em;
+    transform: translate(-50%, -50%) rotateX(90deg) rotateZ(90deg);
+    width: 14.75em;
+    height: 3em;
+    background-image: linear-gradient(to top, rgb(13 64 23), rgb(0 0 0));
+}
+
+.grassRight {
+    left: 8.9em;
+    transform: translate(-50%, -50%) rotateX(90deg) rotateZ(90deg);
+}
+
+.grassFront {
+    transform: translate(-50%, -50%) translateZ(9.915em) rotateX(90deg);
+    left: auto;
+    width: 14.8em;
+    height: 5em;
+}
+
+.grassBack { 
+    transform: translate(-50%, -50%) translateZ(-9.915em) rotateX(90deg);
+    left: auto;
+    width: 14.8em;
+    height: 5em;  
+}
+
+/* balc */
+:is(.sFloorWall_TopL, .sFloorWall_TopR) {
+    transform: translateX(-50%) translateY(-50%) translateZ(8.5em) rotateX(180deg) rotateY(90deg);
+    top: -5.9em;
+    left: -2em;
+    width: 1.9em;
+    height: 0.8em;
+    border-left: none;
+    border-top: 0.1em solid white;
+    border-bottom: 0.1em solid white;
+}
+
+.sFloorWall_TopR {
+    left: 2em;
+}
+
+:is(.sFloorWall_BottomL, .sFloorWall_BottomR) {
+    transform: translateX(-50%) translateY(-50%) translateZ(8.5em) rotateX(180deg) rotateY(90deg);
+    top: -3.12em;
+    left: -2em;
+    width: 1.9em;
+    height: 1.3em;
+    border-left: none;
+    border-top: 0.1em solid white;
+    border-bottom: 0.1em solid white;
+}
+
+.sFloorWall_BottomR {
+    left: 2em;
+}
+
+:is(.sFloorWall_TopF, .sFloorWall_BootomF) {
+    transform: translateX(50%) translateY(50%) translateZ(9.5em) rotateX(180deg) rotateY(180deg);
+    top: -6.9em;
+    left: -4em;
+    width: 3.8em;
+    height: 0.8em;
+    border-top: 0.1em solid white;
+    border-bottom: 0.1em solid white;
+}
+
+.sFloorWall_BootomF {
+    top: -4.6335em;
+    height: 1.3em;
+}
+
+:is(.sFloorBalc, .roofBalc) {
+    top: -2.4em;
+    transform: translate(-50%, -50%) translateZ(8.5em) rotateX(90deg);
+    width: 4em;
+    height: 2em;
+    background-color: rgb(140, 140, 140);
+}
+
+.roofBalc {
+    top: -6.4em;
+}
+
+/* windows & doors */
+:is(.stairFront, .stairFront_step) {
+    position: absolute;
+    background-color: #646464;
+    transform: translateX(50%) translateY(50%) translateZ(9.05em) rotateX(180deg) rotateY(180deg);
+    top: 0.5em;
+    right: 0;
+    width: 2.5em;
+    height: 1em;
+}
+
+.stairFront_step {
+    transform: translateX(50%) translateY(50%) translateZ(9.5em) rotateX(180deg) rotateY(180deg);
+    top: 1.35em;
+    height: 0.5em;
+}
+
+:is(.stairLeft, .stairRight) {
+    background-color: #646464;
+    transform: translateX(-50%) translateY(-50%) translateZ(8.2em) rotateX(180deg) rotateY(90deg);
+    top: 1.5em;
+    left: -1.24em;
+    width: 1.69em;
+    height: 1em;
+}
+
+:is(.stairLeft_step, .stairRight_step) {
+    background-color: #646464;
+    transform: translateX(-50%) translateY(-50%) translateZ(9.25em) rotateX(180deg) rotateY(90deg);
+    top: 1.8em;
+    left: -1.25em;
+    width: 0.55em;
+    height: 0.5em;
+}
+
+:is(.stairRight, .stairRight_step) {
+    left: 1.25em
+}
+
+:is(.stairFloor, .stairFloor_step) {
+    top: 1em;
+    transform: translate(-50%, -50%) translateZ(8.2em) rotateX(90deg);
+    width: 2.45em;
+    height: 1.7em;
+    background-color: rgb(140, 140, 140);
+}
+
+.stairFloor_step {
+    top: 1.57em;
+    transform: translate(-50%, -50%) translateZ(9.3em) rotateX(90deg);
+    height: 0.5em;
+}
+
+.window{
+    position: var(--pos);
+    background-color: rgba(256, 256, 256, 0.3);
+    border: 0.1em solid white;
+    box-shadow: inset 0 0 0.1em rgb(0, 0, 0);
+}
+
+.door {
+    position: var(--pos);
+    background-color: rgb(255, 255, 255);
+    box-shadow: inset 0 0 0.1em rgb(0, 0, 0);
+    border-right: 0.1em solid white;
+    border-left: 0.1em solid white;
+    border-bottom: 0.1em solid white;
+}
+
+.oldDoor{
+    position: var(--pos);
+    background-color: #942626;
+    background-image: repeating-linear-gradient(to right, #9b9b9b, #ffffff);
+    background-size: 0.35em;
+    box-shadow: inset 0 0 1.5em rgb(0, 0, 0);
+}
+
+.frontDoorBorderLeft {
+    transform: translateX(50%) translateY(50%) translateZ(7.51em);
+    background-color: rgb(255, 255, 255);
+    top: -2.9em;
+    right: 0.94em;
+    width: 0.1em;
+    height: 2.6em;
+}
+
+.frontDoorBorderRight {
+    transform: translateX(50%) translateY(50%) translateZ(7.51em);
+    background-color: rgb(255, 255, 255);
+    top: -2.9em;
+    right: -0.95em;
+    width: 0.1em;
+    height: 2.6em;
+}
+
+.frontDoorBorderTop {
+    transform: translateX(50%) translateY(50%) translateZ(7.51em);
+    background-color: rgb(255, 255, 255);
+    top: -1.74em;
+    right: 0;
+    width: 1.985em;
+    height: 0.1em;
+}
+
+/* front */
+:is(.wFront1, .wFront2, .wFront3, .wFront4, .wFront5, .frontDoor, .balcDoor) {
+    transform: translateX(50%) translateY(50%) translateZ(7.51em) rotateX(180deg) rotateY(180deg);
+    top: -2.5em;
+    right: 4.7em;
+    width: 2.8em;
+    height: 1.5em;
+}
+
+.wFront2 {
+    right: -4.7em;
+}
+
+.wFront3 {
+    top: -5.5em;
+    right: -1em;
+    width: 1.2em;
+}
+
+.wFront4 {
+    top: -5.5em;
+    right: -5em;
+    width: 0.8em;
+    height: 1em;
+}
+
+.wFront5 {
+    top: -9.4em;
+    right: 0;
+    width: 1em;
+    height: 0.8em;
+}
+
+.frontDoor {
+    top: -2.88em;
+    right: 0;
+    width: 1.8em;
+    height: 2.57em;
+}
+
+    .handle {
+        position: var(--pos);
+        top: 1em;
+        left: 1.23em;
+        width: 0.38em;
+        height: 0.1em;
+        background-color: black;
+        border-radius: 0.3em;
+        box-shadow: 0 0 0.1em rgb(0, 0, 0);
+    }
+
+.balcDoor {
+    top: -6.4em;
+    right: 1em;
+    width: 1.3em;
+    height: 2.57em;
+    background-color: rgba(256, 256, 256, 0.3);
+}
+
+/* left */
+:is(.wLeft1, .wLeft2, .wLeft3, .wLeft4) {
+    transform: translateX(-50%) translateY(-50%) translateZ(3.6em) rotateY(90deg);
+    top: -0.8em;
+    left: -7.5em;
+    width: 2.8em;
+    height: 1.5em;
+}
+
+.wLeft2 {
+    transform: translateX(-50%) translateY(-50%) translateZ(-3.5em) rotateY(90deg);
+}
+
+.wLeft3 {
+    transform: translateX(-50%) translateY(-50%) translateZ(-3.5em) rotateY(90deg);
+    top: -4.1em;
+}
+
+.wLeft4 {
+    top: -4.1em;
+}
+
+/* back */
+:is(.wBack1, .wBack2, .wBack3, .wBack4) {
+    transform: translateX(50%) translateY(50%) translateZ(-7.51em) rotateX(180deg) rotateY(180deg);
+    top: -2.5em;
+    right: 4em;
+    width: 2.8em;
+    height: 1.5em;
+}
+
+.wBack2 {
+    right: -4em;
+}
+
+.wBack3 {
+    top: -6em;
+    right: -4em;
+}
+
+/* tree */
+:is(.tree, .tree2) {
+    position: absolute;
+    top: -13em;
+    left: -11em;
+    width: 5em;
+    height: 10em;
+    transform: translateX(50%) translateY(50%) translateZ(11.51em) rotateY(180deg);
+    clip-path: polygon(30% 100%, 40% 91%, 41% 82%, 35% 75%, 35% 69%, 32% 65%, 24% 60%, 20% 54%, 20% 48%, 21% 40%, 18% 34%, 7% 32%, 3% 29%, 2% 20%, 2% 23%, 7% 29%, 14% 29%, 20% 33%, 27% 39%, 28% 50%, 34% 53%, 37% 47%, 37% 38%, 37% 31%, 30% 23%, 26% 18%, 24% 13%, 27% 5%, 32% 1%, 38% 0%, 44% 0%, 36% 4%, 30% 7%, 30% 14%, 33% 18%, 37% 24%, 42% 27%, 48% 22%, 55% 23%, 60% 17%, 65% 10%, 72% 8%, 80% 5%, 94% 4%, 67% 13%, 94% 14%, 86% 16%, 78% 15%, 69% 16%, 66% 21%, 61% 25%, 55% 29%, 50% 31%, 46% 37%, 58% 37%, 72% 36%, 81% 36%, 93% 36%, 98% 39%, 100% 44%, 86% 37%, 81% 38%, 74% 39%, 65% 40%, 59% 41%, 51% 43%, 49% 44%, 49% 45%, 47% 49%, 41% 57%, 48% 63%, 54% 68%, 55% 75%, 59% 84%, 56% 92%, 67% 100%);
+    background-image: linear-gradient(110deg, black, #261b04);
+    z-index: 1;
+}
+
+.tree2 {
+    transform: translateX(50%) translateY(50%) translateZ(11.51em) rotateY(180deg);
+    left: -2em;
+}
+
+/* shadow */
+.scareShadow {
+    position: absolute;
+    transform: translateX(50%) translateY(50%) translateZ(7.5em);
+    top: -9.21em;
+    right: 0;
+    width: 1em;
+    height: 0.8em;
+    animation: scareShadow 10s linear 15s infinite;
+}
+
+/* animation */
+@keyframes scareShadow {
+    0%, 100% {
+        background-color: transparent;
+    }
+
+    48%{
+        background-color: transparent;
+    }
+
+    49% {
+        background-color: white;
+    }
+
+    50% {
+        background-color: black;
+    }
+
+    51% {
+        background-color: white;
+    }
+
+    52% {
+        background-color: transparent;
+    }
+
+}
+
+@keyframes rotateSceen {
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+@keyframes counterRotate {
+    to {
+        transform: translateX(50%) translateY(50%) translateZ(11.51em) rotateY(360deg);
+    }
+}
+
+@keyframes zoomToDoor {
+    to {
+        --perspective: 8.5em;
+        --perspVertical: calc(50% - 0.4em);
+        perspective: var(--perspective);
+        perspective-origin: 50% var(--perspVertical);
+    }
+}
+
+@keyframes doorOpen {
+    0%{
+        transform: translateX(50%) translateY(50%) translateZ(7.51em) rotateX(180deg) rotateY(180deg);
+        top: -2.88em;
+        right: 0;
+        width: 1.8em;
+        height: 2.57em;
+    }
+
+    10%{
+        transform: translateX(50%) translateY(50%) translateZ(7.59em) rotateX(180deg) rotateY(175deg);
+        top: -2.88em;
+        right: -0.04em;
+        width: 1.72em;
+        height: 2.57em;
+    }
+
+    20% {
+        transform: translateX(50%) translateY(50%) translateZ(7.71em) rotateX(180deg) rotateY(165deg);
+        top: -2.88em;
+        right: -0.1em;
+        width: 1.6em;
+        height: 2.57em;
+    }
+
+    30% {
+        transform: translateX(50%) translateY(50%) translateZ(7.8em) rotateX(180deg) rotateY(155deg);
+        top: -2.88em;
+        right: -0.24em;
+        width: 1.51em;
+        height: 2.57em;
+    }
+
+    40% {
+        transform: translateX(50%) translateY(50%) translateZ(7.9em) rotateX(180deg) rotateY(145deg);
+        top: -2.88em;
+        right: -0.33em;
+        width: 1.41em;
+        height: 2.57em;
+    }
+
+    50% {
+        transform: translateX(50%) translateY(50%) translateZ(7.95em) rotateX(180deg) rotateY(135deg);
+        top: -2.88em;
+        right: -0.45em;
+        width: 1.33em;
+        height: 2.57em;
+    }
+
+    60% {
+        transform: translateX(50%) translateY(50%) translateZ(8.09em) rotateX(180deg) rotateY(125deg);
+        top: -2.88em;
+        right: -0.45em;
+        width: 1.33em;
+        height: 2.57em;
+    }
+
+    70% {
+        transform: translateX(50%) translateY(50%) translateZ(8.09em) rotateX(180deg) rotateY(115deg);
+        top: -2.88em;
+        right: -0.45em;
+        width: 1.33em;
+        height: 2.57em;
+    }
+
+    80% {
+        transform: translateX(50%) translateY(50%) translateZ(8.05em) rotateX(180deg) rotateY(105deg);
+        top: -2.88em;
+        right: -0.65em;
+        width: 1.33em;
+        height: 2.57em;
+    }
+
+    90% {
+        transform: translateX(50%) translateY(50%) translateZ(8.05em) rotateX(180deg) rotateY(95deg);
+        top: -2.88em;
+        right: -0.85em;
+        width: 1.33em;
+        height: 2.57em;
+    }
+
+    100% {
+        transform: translateX(50%) translateY(50%) translateZ(8.05em) rotateX(180deg) rotateY(90deg);
+        top: -2.88em;
+        right: -0.85em;
+        width: 1.33em;
+        height: 2.57em;
+    } 
+}
+
+@keyframes enterDoor {
+    0% {
+        --perspective: 8.5em;
+        --perspVertical: calc(50% - 0.4em);
+        perspective: var(--perspective);
+        perspective-origin: 50% var(--perspVertical);
+    }
+
+    100% {
+        --perspective: 5.5em;
+        --perspVertical: calc(50% - 0.4em);
+        perspective: var(--perspective);
+        perspective-origin: 50% var(--perspVertical);
+        --changeSize: 70px;
+        font-size: var(--changeSize);
+    }
+}
+
+@keyframes fadeInHouse {
+   0%{
+        font-size: 0.1px;
+        perspective-origin: 50% calc(50% - 30em);
+   }
+
+    100% {
+        font-size: var(--changeSize);
+        perspective-origin: 50% 50%;
+    }
+}
+
+@keyframes display {
+    100% {
+        max-height: 100%;
+    }
+}
