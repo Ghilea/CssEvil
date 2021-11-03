@@ -8,7 +8,7 @@
 
     /*start the game */
     --gsRotateSpeed: 25s; /* 13*/
-    --gsZoomSpeed: 45s; /* 15 */
+    --gsZoomSpeed: 0s; /* 15 */
 
     --doorDisplayDelay: 754s; /* 15 */
 
