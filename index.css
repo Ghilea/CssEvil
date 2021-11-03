@@ -7,7 +7,7 @@
     --changeSize: 35px;
 
     /*start the game */
-    --gsRotateSpeed: 0s; /* 13*/
+    --gsRotateSpeed: 25s; /* 13*/
     --gsZoomSpeed: 0s; /* 15 */
 
     --doorDisplayDelay: 0s; /* 15 */
