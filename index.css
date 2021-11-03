@@ -752,6 +752,9 @@ input:is([type="checkbox"], [type="radio"]){
     animation: scareShadow 10s linear 15s infinite;
 }
 
+/*overlay animation */
+
+
 /* animation */
 @keyframes scareShadow {
     0%, 100% {
