@@ -221,25 +221,40 @@ body {
         text-shadow: -0.05em 0.07em 0.1em #680b0b;
     }
 
+    .menu__anyBtn {
+        max-height: 100%;
+        font-size: 2.5rem;
+        color: white;
+        z-index: 4;
+        cursor: pointer;
+        transform: translateY(4em);
+        font-weight: 600;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
     .menu__play {
+        max-height: 0;
         font-size: 2.5rem;
         color: white;
         z-index: 4;
         cursor: pointer;
         transform: translateY(3em);
         font-weight: 600;
+        overflow: hidden;
     }
 
     .menu__load {
+        max-height: 0;
         font-size: 2.5rem;
         color: white;
         z-index: 4;
         cursor: pointer;
         transform: translateY(5em);
         font-weight: 600;
+        overflow: hidden;
     }
 
-    :is(.menu__play, .menu__load):hover {
+    :is(.menu__play, .menu__load, .menu__anyBtn):hover {
         font-size: 2.55rem;
         color:#680b0b
     }
@@ -281,7 +296,7 @@ input:is([type="checkbox"], [type="radio"]){
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(255, 255, 255);
+    background-image: radial-gradient(#d5d5d5, #5a5454, #181818);
     box-shadow: 0 0 2em rgb(255, 255, 255);
     width: 3em;
     height: 3em;
@@ -294,6 +309,7 @@ input:is([type="checkbox"], [type="radio"]){
 
 .button:hover {
     box-shadow: 0 0 0.1em rgb(255, 255, 255);
+    background-image: radial-gradient(#d5d5d5, #bfbfbf, #181818);
     transition: all 1s;
 }
 
@@ -311,7 +327,15 @@ input:is([type="checkbox"], [type="radio"]){
     display: none;
 }
 
+#anyBtnGameBtn:checked~:is(.menu__play, .menu__load) {
+    animation: display 1s ease-in-out forwards;
+}
+
 #startGameBtn:checked~.menu .menu__title {
+    display: none;
+}
+
+#anyBtnGameBtn:checked~.menu__anyBtn {
     display: none;
 }
 
@@ -425,7 +449,8 @@ input:is([type="checkbox"], [type="radio"]){
 #backBtn:checked~.per .scen .flashLightFront {
     --scenRotation: 180deg;
     top: calc(-0.5em * var(--positionY));
-    right: calc(0.5em + calc(-0.5em * var(--positionX)));
+    right: 0;
+    left: calc(0.5em * var(--positionX));
     transform: translateX(50%) translateY(50%) translateZ(calc(-2.5em * var(--positionZ))) scale(calc(1 * var(--positionZ))) rotateX(calc(0deg * var(--positionYR))) rotateY(var(--scenRotation));
     box-shadow: inset 0 0 4em 2em hsl(0deg 0% 100%),
     0 0 2em calc(0.7em * var(--positionY)) hsl(0deg 0% 100%);
@@ -1129,5 +1154,15 @@ input:is([type="checkbox"], [type="radio"]){
 @keyframes unDisplay {
     to {
         max-height: 0;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.3;
+    }
+
+    50%{
+        opacity: 1;
     }
 }
