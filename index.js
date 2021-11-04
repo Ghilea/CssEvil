@@ -38,6 +38,6 @@ let bgMusic = paused => {
 audioFiles();
 
 playMusic.addEventListener('click', () => {
-    bgMusic(false);
+    //bgMusic(false);
 })
     
