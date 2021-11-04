@@ -1,5 +1,5 @@
 const door = document.getElementById('doorClick');
-const playMusic = document.getElementById('musicBtn');
+const startGame = document.getElementById('startGameBtn');
 
 const link = './sound/music.mp3';
 let audio = new Audio(link);
@@ -37,7 +37,16 @@ let bgMusic = paused => {
 
 audioFiles();
 
-playMusic.addEventListener('click', () => {
-    //bgMusic(false);
+startGame.addEventListener('click', () => {
+    
+    const link = './sound/startGame.mp3';
+    let audio = new Audio(link);
+    audio.volume = 0.5;
+    audio.play();
+    
+    setTimeout(() => {
+        bgMusic(false);
+    }, 2000);
+            
 })
     
