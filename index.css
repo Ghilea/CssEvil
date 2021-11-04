@@ -8,10 +8,10 @@
     --changeSize: 35px;
 
     /*start the game */
-    --gsRotateSpeed: 0s; /* 13*/
-    --gsZoomSpeed: 0s; /* 15 */
+    --gsRotateSpeed: 15s; /* 13*/
+    --gsZoomSpeed: 15s; /* 15 */
 
-    --doorDisplayDelay: 1; /* 15 */
+    --doorDisplayDelay: 18.5s; /* 15 */
 
     /* controller */
     --showControllerDelay: 4.5s; /* 4.5 */
@@ -201,44 +201,6 @@ body {
     0 0 2em calc(0.7em * var(--positionY)) hsl(0deg 0% 100%);
 }
 
-/*.flashLightBack {
-    display: none;
-    position: absolute;
-    top: calc(-0.5em * var(--positionY));
-    right: calc(0.5em + calc(-0.5em * var(--positionX)));
-    width: 0.5em;
-    transform: translateX(50%) translateY(50%) translateZ(calc(-2.5em * var(--positionZ))) scale(calc(1 * var(--positionZ))) rotateX(calc(0deg * var(--positionYR)));
-    transition: all 0.3s;
-    box-shadow: inset 0 0 4em 2em hsl(0deg 0% 100%),
-        0 0 2em calc(0.7em * var(--positionY)) hsl(0deg 0% 100%);
-}
-
-.flashLightLeft {
-    display: none;
-    position: absolute;
-    top: calc(-0.5em * var(--positionY));
-    right: 0;
-    left: calc(2.5em * var(--positionZ));
-    width: 0.5em;
-    transform: translateX(50%) translateY(50%) translateZ(calc(0em + calc(0.5em * var(--positionX)))) scale(calc(1 * var(--positionZ))) rotateX(calc(0deg * var(--positionYR))) rotateY(var(--scenRotation));
-    transition: all 0.3s;
-    box-shadow: inset 0 0 4em 2em hsl(0deg 0% 100%),
-        0 0 2em calc(0.7em * var(--positionY)) hsl(0deg 0% 100%);
-}
-
-.flashLightRight {
-    display: none;
-    position: absolute;
-    top: calc(-0.5em * var(--positionY));
-    right: 0;
-    left: calc(-2.5em * var(--positionZ));
-    width: 0.5em;
-    transform: translateX(50%) translateY(50%) translateZ(calc(0em + calc(-0.5em * var(--positionX)))) scale(calc(1 * var(--positionZ))) rotateX(calc(0deg * var(--positionYR))) rotateY(var(--scenRotation));
-    transition: all 0.3s;
-    box-shadow: inset 0 0 4em 2em hsl(0deg 0% 100%),
-        0 0 2em calc(0.7em * var(--positionY)) hsl(0deg 0% 100%);
-}*/
-
 /* menu */
 .menu {
     width: 100vw;
@@ -248,13 +210,53 @@ body {
     display:flex;
     align-items: center;
     justify-content: center;
+    clip-path: polygon(0% 0%, 0% 100%, 88% 69%, 68% 52%, 47% 57%, 39% 59%, 20% 50%, 40% 50%, 30% 29%, 47% 8%, 61% 17%, 30% 42%, 23% 35%, 81% 53%, 83% 71%, 56% 76%, 54% 90%, 54% 59%, 52% 100%, 100% 100%, 100% 55%, 100% 0%);
 }
 
-    .menu__play {
-        font-size: 3rem;
+    .menu__title {
+        position: absolute;
+        color: white;
+        transform: translateY(-2em);
+        font-size: 4rem;
+        text-shadow: -0.05em 0.07em 0.1em #680b0b;
+    }
+
+    .menu__anyBtn {
+        max-height: 100%;
+        font-size: 2.5rem;
         color: white;
         z-index: 4;
         cursor: pointer;
+        transform: translateY(4em);
+        font-weight: 600;
+        animation: pulse 2s ease-in-out infinite;
+    }
+
+    .menu__play {
+        max-height: 0;
+        font-size: 2.5rem;
+        color: white;
+        z-index: 4;
+        cursor: pointer;
+        transform: translateY(3em);
+        font-weight: 600;
+        overflow: hidden;
+    }
+
+    .menu__load {
+        max-height: 0;
+        font-size: 2.5rem;
+        color: white;
+        z-index: 4;
+        cursor: pointer;
+        transform: translateY(5em);
+        font-weight: 600;
+        overflow: hidden;
+    }
+
+    :is(.menu__play, .menu__load, .menu__anyBtn):hover {
+        font-size: 2.55rem;
+        color:#680b0b
     }
 
 .per {
@@ -294,7 +296,7 @@ input:is([type="checkbox"], [type="radio"]){
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(255, 255, 255);
+    background-image: radial-gradient(#d5d5d5, #5a5454, #181818);
     box-shadow: 0 0 2em rgb(255, 255, 255);
     width: 3em;
     height: 3em;
@@ -307,6 +309,7 @@ input:is([type="checkbox"], [type="radio"]){
 
 .button:hover {
     box-shadow: 0 0 0.1em rgb(255, 255, 255);
+    background-image: radial-gradient(#d5d5d5, #bfbfbf, #181818);
     transition: all 1s;
 }
 
@@ -314,28 +317,42 @@ input:is([type="checkbox"], [type="radio"]){
     animation: display 1s ease-in-out var(--showControllerDelay) forwards;
 }
 
-/* musicBtn */
-#musicBtn:checked ~ .menu{
-    display:none;
+/* menu */
+#startGameBtn:checked ~ .menu{
+    animation: fadeOut 2s ease-in-out forwards, unDisplay 1s ease-in-out 2s forwards;
+    clip-path: none;
 }
 
-#musicBtn:checked~.menu__play {
+#startGameBtn:checked~:is(.menu__play, .menu__load) {
     display: none;
 }
 
-#musicBtn:checked~.per {
-    animation: fadeInHouse var(--gsZoomSpeed) ease-in-out;
+#anyBtnGameBtn:checked~:is(.menu__play, .menu__load) {
+    animation: display 1s ease-in-out forwards;
 }
 
-#musicBtn:checked~.per .scen{
-    animation: rotateSceen var(--gsRotateSpeed) ease-in-out;
+#startGameBtn:checked~.menu .menu__title {
+    display: none;
+}
+
+#anyBtnGameBtn:checked~.menu__anyBtn {
+    display: none;
+}
+
+#startGameBtn:checked~.per {
+    font-size: 0.1px;
+    animation: fadeInHouse var(--gsZoomSpeed) ease-in-out 2.5s forwards;
+}
+
+#startGameBtn:checked~.per .scen{
+    animation: rotateSceen var(--gsRotateSpeed) ease-in-out 2.5s;
 }
 
 /*#musicBtn:checked~.per .tree {
     animation: counterRotate 13s linear reverse infinite;
 }*/
 
-#musicBtn:checked~.doorBtnB {
+#startGameBtn:checked~.doorBtnB {
     animation: display 2s ease-in-out var(--doorDisplayDelay) forwards;
 }
 
@@ -432,7 +449,8 @@ input:is([type="checkbox"], [type="radio"]){
 #backBtn:checked~.per .scen .flashLightFront {
     --scenRotation: 180deg;
     top: calc(-0.5em * var(--positionY));
-    right: calc(0.5em + calc(-0.5em * var(--positionX)));
+    right: 0;
+    left: calc(0.5em * var(--positionX));
     transform: translateX(50%) translateY(50%) translateZ(calc(-2.5em * var(--positionZ))) scale(calc(1 * var(--positionZ))) rotateX(calc(0deg * var(--positionYR))) rotateY(var(--scenRotation));
     box-shadow: inset 0 0 4em 2em hsl(0deg 0% 100%),
     0 0 2em calc(0.7em * var(--positionY)) hsl(0deg 0% 100%);
@@ -445,7 +463,7 @@ input:is([type="checkbox"], [type="radio"]){
 }
 
 #doorClick:checked~.doorBtnB {
-    animation: hide 1s ease-in-out forwards;
+    animation: unDisplay 1s ease-in-out forwards;
 }
 
 #doorClick:checked~.overlay {
@@ -1133,8 +1151,18 @@ input:is([type="checkbox"], [type="radio"]){
     }
 }
 
-@keyframes hide {
+@keyframes unDisplay {
     to {
         max-height: 0;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.3;
+    }
+
+    50%{
+        opacity: 1;
     }
 }
