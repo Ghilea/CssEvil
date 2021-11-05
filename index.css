@@ -9,7 +9,7 @@
 
     /*start the game */
     --gsRotateSpeed: 15s; /* 13*/
-    --gsZoomSpeed: 15s; /* 15 */
+    --gsZoomSpeed: 18s; /* 18 */
 
     --doorDisplayDelay: 18.5s; /* 15 */
 
@@ -341,7 +341,7 @@ input:is([type="checkbox"], [type="radio"]){
 
 #startGameBtn:checked~.per {
     font-size: 0.1px;
-    animation: fadeInHouse var(--gsZoomSpeed) ease-in-out 2.5s forwards;
+    animation: fadeInHouse var(--gsZoomSpeed) ease-in-out 1s forwards;
 }
 
 #startGameBtn:checked~.per .scen{
@@ -1128,16 +1128,16 @@ input:is([type="checkbox"], [type="radio"]){
         --perspVertical: calc(50% - 0.4em);
         perspective: var(--perspective);
         perspective-origin: 50% var(--perspVertical);
-        --changeSize: 70px;
+        --changeSize: 100px;
         font-size: var(--changeSize);
     }
 }
 
 @keyframes fadeInHouse {
-   0%{
+    0%{  
         font-size: 0.1px;
         perspective-origin: 50% calc(50% - 30em);
-   }
+    }
 
     100% {
         font-size: var(--changeSize);
